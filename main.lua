@@ -9,8 +9,7 @@ tmr.alarm(0, 1000, 1, function()
 end)
 
 abort = false
-changefile = false
-runfile="pattern_rainbow.lc"
+arg = ""
 
 dofile("telnet_srv.lc")
 setupTelnetServer()
@@ -25,14 +24,7 @@ function startup()
   setupTelnetServer = nil
   stopTelnetServer = nil
   connectMQTT()
-  connectMQTT = nil
-  while abort == false do
-    dofile(runfile)
-    if changefile then
-      changefile = false
-      abort = false
-    end
-  end
+  dofile("pattern_rainbow.lc")
 end
 
 tmr.alarm(0,18000,tmr.ALARM_SINGLE,startup)

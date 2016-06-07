@@ -24,16 +24,15 @@ wsbuf = ws2812.newBuffer(PIXELS, 3)
 
 function rainbowHandler()
   for pixel = 1, PIXELS do
+    tmr.wdclr()
     colval = colourWheel((rainbow_index + pixel * rainbow_speed) % 256)
     wsbuf:set(pixel, colval[1],colval[2],colval[3])
   end
   colval = nil
+  tmr.wdclr()
   wsbuf:write()
   rainbow_index = (rainbow_index + 1) % 256
 end
 
---tmr.alarm(1, TIME_ALARM, 1, rainbowHandler)
-while abort == false do
-  rainbowHandler()
-  tmr.delay(TIME_ALARM)
-end
+tmr.alarm(1, TIME_ALARM, 1, rainbowHandler)
+
