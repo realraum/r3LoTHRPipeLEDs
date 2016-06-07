@@ -1,6 +1,9 @@
 --
 -- setup a telnet server that hooks the sockets input
 --
+
+telnetServer = false
+
 function setupTelnetServer()
     inUse = false
     function listenFun(sock)
@@ -33,4 +36,9 @@ function setupTelnetServer()
 
     telnetServer = net.createServer(net.TCP, 180)
     telnetServer:listen(23, listenFun)
+end
+
+function stopTelnetServer()
+  telnetServer:close()
+  telnetServer = false
 end
