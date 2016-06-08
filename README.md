@@ -13,9 +13,9 @@ Inhibit execution of LED animation (in case of problems) by calling <tt>stopstar
 
 Change animation, animation parameters or switch of via MQTT:
 
-   ./inject_mqtt_msg.py "action/PipeLEDs/pattern" '{"pattern":"rainbow","arg":2}'
-   ./inject_mqtt_msg.py "action/PipeLEDs/pattern" '{"pattern":"rainbow","arg":10}'
-   ./inject_mqtt_msg.py "action/PipeLEDs/pattern" '{"pattern":"off","arg":0}'
+    ./inject_mqtt_msg.py "action/PipeLEDs/pattern" '{"pattern":"rainbow","arg":2}'
+    ./inject_mqtt_msg.py "action/PipeLEDs/pattern" '{"pattern":"rainbow","arg":10}'
+    ./inject_mqtt_msg.py "action/PipeLEDs/pattern" '{"pattern":"off","arg":0}'
 
 ## Caveats
 
