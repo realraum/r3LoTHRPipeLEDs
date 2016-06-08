@@ -24,13 +24,11 @@ wsbuf = ws2812.newBuffer(PIXELS, 3)
 function pattern_rainbow()
   for pixel = 1, PIXELS do
     tmr.wdclr()
-    colval = colourWheel((rainbow_index + pixel * rainbow_speed) % 256)
-    wsbuf:set(pixel, unpack(colval))
-    colval=nil
+    wsbuf:set(pixel, unpack(colourWheel((rainbow_index + pixel * rainbow_speed) % 256)))
   end
   tmr.wdclr()
+  rainbow_index = (rainbow_index + 3) % 256
   wsbuf:write()
-  rainbow_index = (rainbow_index + 1) % 256
 end
 
 function pattern_off()
