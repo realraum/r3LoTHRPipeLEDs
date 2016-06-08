@@ -2,13 +2,7 @@ function mqttChangePattern(client, topic, data)
 	print(data)
 	jd = cjson.decode(data)
 	if jd["pattern"] ~= nil and jd["arg"] ~= nil then
-		fn = "pattern_" .. jd["pattern"] .. ".lc"
-		if file.exists(fn) then
-			print("Switching to pattern ".. fn)
-			arg=jd["arg"]
-			tmr.unregister(1) -- all pattern timers need to be 1
-			dofile(fn)
-		end
+		ws2812Select(jd["pattern"], jd["arg"])
 	end
 end
 

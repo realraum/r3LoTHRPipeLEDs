@@ -31,6 +31,8 @@ function setupTelnetServer()
                 inUse = false
             end)
 
+        stopstartup() --on login inhibit startup
+
         sock:send("Welcome to NodeMCU world.\n> ")
     end
 

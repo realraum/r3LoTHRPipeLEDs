@@ -8,23 +8,22 @@ tmr.alarm(0, 1000, 1, function()
    end
 end)
 
-abort = false
-arg = ""
+function stopstartup()
+  tmr.unregister(0)
+  print('startup aborted')
+end
 
 dofile("telnet_srv.lc")
-setupTelnetServer()
+dofile("ws2812.lc")
 dofile("mqtt.lc")
+setupTelnetServer()
 
 function startup()
-  if abort == true then
-    print('startup aborted')
-    return
-  end
   stopTelnetServer()
   setupTelnetServer = nil
   stopTelnetServer = nil
   connectMQTT()
-  dofile("pattern_rainbow.lc")
+  ws2812Start()
 end
 
 tmr.alarm(0,18000,tmr.ALARM_SINGLE,startup)
