@@ -16,9 +16,9 @@ client = mqtt.Client()
 client.connect("mqtt.realraum.at", 1883, 60)
 
 # listen for sensor data and forward them
-if len(sys.argv) >= 2:
+if len(sys.argv) >= 3:
 	client.publish(sys.argv[1], sys.argv[2])
-elif len(sys.argv) == 1:
+elif len(sys.argv) == 2:
 	if sys.argv[1] == "off":
 		sendR3Message(client, "action/PipeLEDs/pattern",{"pattern": "off", "arg": 0})
 	elif sys.argv[1] == "rainbow":

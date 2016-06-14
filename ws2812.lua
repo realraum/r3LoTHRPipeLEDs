@@ -16,7 +16,7 @@ function colourWheel(index)
     return {(255 - index * 3) * BRIGHT / 100, 0, index * 3 * BRIGHT / 100}
   else
     index = index - 170
-    return {0, index * 3 * BRIGHT / 100, (255 - index * 3) * BRIGHT / 100}
+    return 0, index * 3 * BRIGHT / 100, (255 - index * 3) * BRIGHT / 100
   end
 end
 
@@ -38,7 +38,7 @@ end
 function pattern_rainbow_setup()
   for pixel = 1, PIXELS do
     tmr.wdclr()
-    wsbuf:set(pixel, unpack(colourWheel((pixel * rainbow_speed + rainbow_index) % 256)))
+    wsbuf:set(pixel, colourWheel((pixel * rainbow_speed + rainbow_index) % 256))
   end
   tmr.wdclr()
   wsbuf:write()
