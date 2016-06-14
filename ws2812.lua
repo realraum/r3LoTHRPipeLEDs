@@ -22,7 +22,6 @@ end
 
 --global vars for pattern_rainbow
 rainbow_speed = 2
-rainbow_index = 0
 
 --"rainbow"-pattern
 --show a PIXELS long rainbow that reapeats with frequency rainbow_speed
@@ -32,19 +31,24 @@ rainbow_index = 0
 --TODO: make pattern_rainbow() run faster
 --TODO: use bit. module and replace % 256 with & 0xFF
 function pattern_rainbow()
+  wsbuf:shift(1,ws2812.SHIFT_CIRCULAR)
+  tmr.wdclr()
+  wsbuf:write()
+end
+function pattern_rainbow_setup()
   for pixel = 1, PIXELS do
     tmr.wdclr()
     wsbuf:set(pixel, unpack(colourWheel((pixel * rainbow_speed + rainbow_index) % 256)))
   end
   tmr.wdclr()
-  rainbow_index = (rainbow_index + 3) % 256
   wsbuf:write()
+  CurrentLedFunction = pattern_rainbow
 end
 
 --"off"-pattern.
 -- fades out current content of wsbuf
 function pattern_off()
-  wsbuf:fade(2)
+  wsbuf:fade(2,ws2812.FADE_OUT)
   wsbuf:write()
   tmr.wdclr()
 end
@@ -56,7 +60,7 @@ spots_index = 0
 spots_count = 1
 spots_distance = PIXELS/spots_count
 function pattern_moving_spots()
-  wsbuf:fade(2)
+  wsbuf:fade(2,ws2812.FADE_OUT)
   for spot = 0, spots_count do
   	tmr.wdclr()
   	wsbuf:set(1 + spots_index + (spot*spots_distance),255,255,255)
@@ -74,8 +78,8 @@ LedPatterns = {off = pattern_off, rainbow = pattern_rainbow, spots = pattern_mov
 -- repeat intervall [ms] must be at least as long as the function needs to run plus time needed to 
 -- handle all other tasks (like task queuing and mqtt)
 -- e.g. for each run of pattern_rainbow we need about 400ms, sadly.
-LedPatternsInterval = {rainbow = 400, off = 600, spots = 200}
-CurrentLedFunction = LedPatterns["rainbow"]
+LedPatternsInterval = {rainbow = 100, off = 600, spots = 200}
+CurrentLedFunction = LedPatterns["rainbow_setup"]
 TIME_ALARM=LedPatternsInterval["rainbow"]
 
 -- called regularly to animate LEDstrip by calling CurrentLedFunction
@@ -117,3 +121,4 @@ function ws2812Select (patt, arg)
 	end
   end
 end
+
