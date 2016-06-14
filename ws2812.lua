@@ -30,6 +30,7 @@ rainbow_index = 0
 --
 --since running pattern_rainbow() takes so long, we need to call tmr.wdclr() in between, otherwise the watchdog will reset us
 --TODO: make pattern_rainbow() run faster
+--TODO: use bit. module and replace % 256 with & 0xFF
 function pattern_rainbow()
   for pixel = 1, PIXELS do
     tmr.wdclr()
@@ -48,16 +49,32 @@ function pattern_off()
   tmr.wdclr()
 end
 
+--"moving spots"-patterns
+--show white pixelspots moving from left to right with trail
+--number of pixelspots can be varied with spots_count
+spots_index = 0
+spots_count = 1
+spots_distance = PIXELS/spots_count
+function pattern_moving_spots()
+  wsbuf:fade(2)
+  for spot = 0, spots_count do
+  	tmr.wdclr()
+  	wsbuf:set(1 + spots_index + (spot*spots_distance),255,255,255)
+  end
+  spots_index = (spots_index + 1) % spots_distance
+  wsbuf:write()
+end
+
 --TODO: define additional animation patterns here
 --animation patterns could also be single shot and return to the previous pattern when finished, just need to remember last state
 
 --define availabe animation functions and map a string identifier to them
-LedPatterns = {off = pattern_off, rainbow = pattern_rainbow}
+LedPatterns = {off = pattern_off, rainbow = pattern_rainbow, spots = pattern_moving_spots}
 -- map string identifier for animations to repeat-interval in ms
 -- repeat intervall [ms] must be at least as long as the function needs to run plus time needed to 
 -- handle all other tasks (like task queuing and mqtt)
 -- e.g. for each run of pattern_rainbow we need about 400ms, sadly.
-LedPatternsInterval = {rainbow = 400}
+LedPatternsInterval = {rainbow = 400, off = 600, spots = 200}
 CurrentLedFunction = LedPatterns["rainbow"]
 TIME_ALARM=LedPatternsInterval["rainbow"]
 
@@ -94,5 +111,9 @@ function ws2812Select (patt, arg)
     if type(arg) == "number" and patt == "rainbow" then
       rainbow_speed = arg
     end
+    if type(arg) == "number" and patt == "spots" then
+    	spots_count = arg
+		spots_distance = PIXELS/spots_count
+	end
   end
 end
