@@ -17,7 +17,7 @@ function connectMQTT()
 	-- on offline, print a message and restart
 	mc:on("offline", function(client) 
 		print("mqtt offline")
-		node.reset()
+		node.restart()
 	end)
 	mc:on("message", mqttChangePattern)
 	mc:connect("mqtt.realraum.at",1883,false,true)

@@ -41,7 +41,7 @@ if wsbuf.shift then
 	function pattern_rainbow()
 	  for pixel = 1, PIXELS do
 	    tmr.wdclr()
-	    wsbuf:set(pixel, colourWheel((pixel * rainbow_speed + rainbow_index) % 256))
+	    wsbuf:set(pixel, colourWheel((pixel * rainbow_speed) % 256))
 	  end
 	  tmr.wdclr()
 	  wsbuf:write()
@@ -93,14 +93,17 @@ LedPatterns = {off = pattern_off, rainbow = pattern_rainbow, spots = pattern_mov
 -- repeat intervall [ms] must be at least as long as the function needs to run plus time needed to 
 -- handle all other tasks (like task queuing and mqtt)
 -- e.g. for each run of pattern_rainbow we need about 400ms, sadly.
-LedPatternsInterval = {rainbow = 200, off = 600, spots = 200}
+LedPatternsInterval = {rainbow = 600, off = 600, spots = 200}
 CurrentLedFunction = LedPatterns["rainbow"]
 TIME_ALARM=LedPatternsInterval["rainbow"]
 
 -- called regularly to animate LEDstrip by calling CurrentLedFunction
 function ws2812Animate ()
   node.task.post(node.task.LOW_PRIORITY, CurrentLedFunction)
+--  local ok, err = pcall(node.task.post, node.task.LOW_PRIORITY, CurrentLedFunction)
+--  if not ok then print("ERROR: " .. err) end
 end
+
 
 -- start timer and init ws2812 pins
 -- TODO: restore state saved in filesystem in case of reboot on mqtt disconnect
