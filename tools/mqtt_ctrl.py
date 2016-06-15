@@ -17,7 +17,7 @@ client.connect("mqtt.realraum.at", 1883, 60)
 
 # listen for sensor data and forward them
 if len(sys.argv) >= 3:
-	client.publish(sys.argv[1], sys.argv[2])
+	sendR3Message(client, "action/PipeLEDs/pattern",{"pattern": sys.argv[1], "arg": int(sys.argv[2])})
 elif len(sys.argv) == 2:
 	if sys.argv[1] == "off":
 		sendR3Message(client, "action/PipeLEDs/pattern",{"pattern": "off", "arg": 0})
@@ -30,11 +30,13 @@ elif len(sys.argv) == 2:
 	elif sys.argv[1] == "spots":
 		sendR3Message(client, "action/PipeLEDs/pattern",{"pattern": "spots", "arg": 2})
 	elif sys.argv[1] == "3spots":
-		sendR3Message(client, "action/PipeLEDs/pattern",{"pattern": "spots", "arg": 2})
-	elif sys.argv[1] == "2spots":
 		sendR3Message(client, "action/PipeLEDs/pattern",{"pattern": "spots", "arg": 3})
+	elif sys.argv[1] == "2spots":
+		sendR3Message(client, "action/PipeLEDs/pattern",{"pattern": "spots", "arg": 2})
+	elif sys.argv[1] == "nspots":
+		sendR3Message(client, "action/PipeLEDs/pattern",{"pattern": "spots", "arg": 10})
 	elif sys.argv[1] == "reset":
-		sendR3Message(client, "action/PipeLEDs/pattern",{"pattern": "rainbow", "arg": -1})
+		sendR3Message(client, "action/PipeLEDs/pattern",{"pattern": "spots", "arg": 0})
 	else:
 		print("%s is unknown cmd",sys.argv[1])
 else:

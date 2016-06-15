@@ -21,17 +21,11 @@ function colourWheel(index)
 end
 
 --global vars for pattern_rainbow
-rainbow_speed = 2
+rainbow_speed = 3
 
 --"rainbow"-pattern
 --show a PIXELS long rainbow that reapeats with frequency rainbow_speed
 --i.e. higher rainbow_speed, the less pixels a individual rainbow will be long
---
---since running pattern_rainbow() takes so long, we need to call tmr.wdclr() in between, otherwise the watchdog will reset us
---TODO: make pattern_rainbow() run faster
---TODO: use bit. module and replace % 256 with & 0xFF
-
-
 if wsbuf.shift then
 	function pattern_rainbow_fast()
 	  wsbuf:shift(1,ws2812.SHIFT_CIRCULAR)
@@ -71,16 +65,23 @@ end
 --"moving spots"-patterns
 --show white pixelspots moving from left to right with trail
 --number of pixelspots can be varied with spots_count
-spots_index = 0
+
 spots_count = 1
 spots_distance = PIXELS/spots_count
+spot_index = 0
+
+function subspot(nspot)
+  wsbuf:set(nspot*spots_distance+spot_index+1,254,254,254)
+  if nspot > 0 then
+    subspot(nspot-1)
+  end
+end
+
 function pattern_moving_spots()
   wsbuf:fade(2,ws2812.FADE_OUT)
-  for spot = 0, spots_count do
-  	tmr.wdclr()
-  	wsbuf:set(1 + spots_index + (spot*spots_distance),255,255,255)
-  end
-  spots_index = (spots_index + 1) % spots_distance
+  --recursion because for is broken?!?
+  subspot(spots_count-1)
+  spot_index = (spot_index + 1) % spots_distance
   wsbuf:write()
 end
 
@@ -93,7 +94,7 @@ LedPatterns = {off = pattern_off, rainbow = pattern_rainbow, spots = pattern_mov
 -- repeat intervall [ms] must be at least as long as the function needs to run plus time needed to 
 -- handle all other tasks (like task queuing and mqtt)
 -- e.g. for each run of pattern_rainbow we need about 400ms, sadly.
-LedPatternsInterval = {rainbow = 600, off = 600, spots = 200}
+LedPatternsInterval = {rainbow = 50, off = 300, spots = 80}
 CurrentLedFunction = LedPatterns["rainbow"]
 TIME_ALARM=LedPatternsInterval["rainbow"]
 
@@ -134,9 +135,10 @@ function ws2812Select (patt, arg)
       rainbow_speed = arg
     end
     if type(arg) == "number" and patt == "spots" then
-    	spots_count = arg
-		spots_distance = PIXELS/spots_count
-	end
+      --reset by sending arg = 0
+      spots_count = arg
+      spots_distance = PIXELS/spots_count
+    end
   end
 end
 
