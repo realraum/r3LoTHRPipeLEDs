@@ -15,4 +15,5 @@ telnet.open()
 import "safe"
 -- From here, unsafe access to globals will fail
 
-xxpcall(import, errorLog, "loader") -- load the rest, safely
+-- load the rest, safely
+xpcall(function() import "loader" end, errorLog)
