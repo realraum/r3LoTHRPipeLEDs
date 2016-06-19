@@ -9,4 +9,11 @@ local function pp(t)
    print(table.concat(tt,"\n"))
 end
 
-setglobal("pp", pp)
+local function ls()
+    pp(file.list())
+end
+
+setglobal("pp", pp) -- pretty print table
+setglobal("rm", file.remove)
+setglobal("cc", file.compile)
+setglobal("ls", ls)
