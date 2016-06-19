@@ -33,3 +33,4 @@ do
     end
 end
 
+return patterns
