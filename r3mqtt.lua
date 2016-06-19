@@ -39,4 +39,9 @@ local function setHandler(k, f)
     msgH[k] = f
 end
 
-return { close = close, connect = connect, setHandler = setHandler, online = online }
+return {
+   close      = close,
+   connect    = connect,
+   setHandler = setHandler,
+   online     = online
+}

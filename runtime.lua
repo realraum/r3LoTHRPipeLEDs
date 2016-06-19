@@ -19,4 +19,4 @@ r3mqtt.setHandler("patt", mqttChangePattern)
 
 setglobal("patt", selectPattern)
 
-patt"strobo"
+selectPattern "strobo"

@@ -55,4 +55,10 @@ function setFunction(f, ...)
 end
 
 
-return { off = off, start = start, stop = stop, init = init, setFunction = setFunction }
+return {
+   off         = off,
+   start       = start,
+   stop        = stop,
+   init        = init,
+   setFunction = setFunction
+}
