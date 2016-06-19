@@ -23,6 +23,7 @@ do
     end
 end
 
+local BRIGHT = 10 -- in %
 local function hue2rgb(index)
   if index < 85 then
     return index * 3 * BRIGHT / 100, (255 - index * 3) * BRIGHT / 100, 0
