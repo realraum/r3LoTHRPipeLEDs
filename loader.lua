@@ -1,5 +1,7 @@
 setglobal("reload", function() import "loader" end)
 
+import "safe"
+-- From here, unsafe access to globals will fail
 
 import "lib"
 import "helpers"

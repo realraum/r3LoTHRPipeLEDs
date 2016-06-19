@@ -11,6 +11,15 @@ local function sendout(str)
     end
 end
 
+local function onReceive(sock, input)
+    node.input(input)
+end
+
+local function onDisconnect(sock)
+    node.output(nil)
+    client = nil
+end
+
 local function listen(sock)
     if server then
         sock:send("Already in use.\n")
@@ -19,8 +28,8 @@ local function listen(sock)
     end
     client = sock
     node.output(sendout, 0)
-    sock:on("receive", function(sock, input) node.input(input) end)
-    sock:on("disconnection",function(sock) node.output(nil) client = nil end)
+    sock:on("receive", onReceive)
+    sock:on("disconnection", onDisconnect)
     sock:send("NodeMCU\n")
 end
 

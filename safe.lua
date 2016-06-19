@@ -1,7 +1,7 @@
-local dispatch = assert(_G.__index, "Not running on NodeMCU Lua?")
+local dispatch = _G.__index
 setmetatable(_G, {
     __index = function(t, k)
-        local v = dispatch(t, k)
+        local v = dispatch and dispatch(t, k)
         if v == nil then
             print("Warning: Attempt to access _G[" .. tostring(k) .. "]")
         end
@@ -11,9 +11,6 @@ setmetatable(_G, {
         error("Error: Attempt to _G[" .. tostring(k) .. "] = " .. tostring(v))
     end,
 })
-
-setglobal("__index",  nil) -- kill original hidden dispatch function
-
 
 local function errorLog(s)
     -- TODO print callstack and shit
