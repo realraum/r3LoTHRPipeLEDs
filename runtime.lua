@@ -11,7 +11,7 @@ local function mqttChangePattern(topic, data)
     print(data)
     local jd = cjson.decode(data)
     if jd.pattern then
-        selectPattern(jd.pattern jd.arg)
+        selectPattern(jd.pattern, jd.arg)
     end
 end
 

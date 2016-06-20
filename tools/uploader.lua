@@ -170,6 +170,7 @@ for i, fn in ipairs(args) do
     local ok, err = checksyntax(code)
     if not ok then
         print("Syntax error in " .. fn .. "!\n" .. err)
+        return
     end
     local t = mangle(code)
     allcode[i] = t
