@@ -1,3 +1,5 @@
+setglobal("_PROMPT", "> ") -- prevent warning about this
+
 local dispatch = _G.__index
 setmetatable(_G, {
     __index = function(t, k)
