@@ -21,7 +21,7 @@ local function onDisconnect(sock)
 end
 
 local function listen(sock)
-    if server then
+    if client then
         sock:send("Already in use.\n")
         sock:close()
         return
@@ -39,8 +39,14 @@ local function open()
 end
 
 local function close()
-  server:close()
-  server = nil
+    if client then
+        client:close()
+        client = nil
+    end
+    if server then
+        server:close()
+        server = nil
+    end
 end
 
 return { open = open, close = close }
