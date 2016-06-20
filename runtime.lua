@@ -1,9 +1,15 @@
 
 local function selectPattern(name, ...)
+    if not name then
+        ledbar.setFunction()
+        return
+    end
+    name =  tostring(name)
     local pa = patterns[name]
     if pa then
-        print("Switching to pattern "..patt)
+        print("Switching to pattern "..name)
         ledbar.setFunction(pa, ...)
+        ledbar.start()
     end
 end
 
@@ -19,4 +25,7 @@ r3mqtt.setHandler("patt", mqttChangePattern)
 
 setglobal("patt", selectPattern)
 
-selectPattern "strobo"
+ledbar.init()
+
+
+--selectPattern "strobo"

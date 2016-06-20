@@ -7,4 +7,4 @@ if [ x == "x$IP" ]; then
     exit 1
 fi
 
-lua tools/uploader.sh "$IP" *.lua
+/c/Lua51/lua.exe tools/uploader.lua "$IP" *.lua

@@ -17,6 +17,8 @@ setmetatable(patterns, {
     end,
 })
 
+local random = math.random
+
 
 ---- STROBO ----
 do
@@ -32,5 +34,22 @@ do
         return 50
     end
 end
+
+patterns.rstrobo = function(wsbuf)
+    local r, g, b = random(0, 255),  random(0, 255),  random(0, 255)
+    wsbuf:fill(g, r, b)
+    wsbuf:write()
+    return 50
+end
+
+patterns.allcolors = function(wsbuf)
+    local set = wsbuf.set
+    for i = 1, wsbuf:size() do
+        local r, g, b = random(0, 255),  random(0, 255),  random(0, 255)
+        set(wsbuf, i, g, r, b)
+    end
+    wsbuf:write()
+end
+
 
 return patterns

@@ -11,21 +11,21 @@ local PRIO = node.task.LOW_PRIORITY
 local animFunc, animParams, animNumParams
 
 
-function off()
+local function off()
     wsbuf:fill(0, 0, 0)
     wsbuf:write()
     tmr.wdclr()
 end
 
-function stop()
+local function stop()
     tmr.unregister(2)
 end
 
 local timerTick
 
-function animate()
+local function animate()
     if animFunc then
-        local delay = animFunc(wsbuf, unpack(animParams, 1, animNumParamsn))
+        local delay = animFunc(wsbuf, unpack(animParams, 1, animNumParams))
         if delay then
             tmr.interval(2, delay)
             tmr.start(2)
@@ -39,26 +39,39 @@ timerTick = function()
     POST(PRIO, animate)
 end
 
-function init()
+local function init()
     ws2812.init()
 end
 
-function start()
-    tmr.register(2, 10, tmr.ALARM_SEMI, timerTick)
+local function start()
+    tmr.register(2, 100, tmr.ALARM_SEMI, timerTick)
     return tmr.start(2)
 end
 
-function setFunction(f, ...)
+local function setFunction(f, ...)
     animFunc = f
     animParams = { ... }
     animNumParams = select("#", ...)
 end
 
+local function ison()
+    return tmr.state(2)
+end
+
+local function info()
+    local on, mode = tmr.state(2)
+    local s = "tmrOn: " .. tostring(on) .. ", tmrMode: " .. tostring(mode) .. ", func: " .. tostring(animFunc)
+    print(s)
+    return s
+end
 
 return {
    off         = off,
    start       = start,
    stop        = stop,
    init        = init,
-   setFunction = setFunction
+   setFunction = setFunction,
+   ison        = ison,
+   info        = info,
+   wsbuf       = wsbuf,
 }
