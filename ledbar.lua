@@ -26,6 +26,7 @@ local timerTick
 local function animate()
     if animFunc then
         local delay = animFunc(wsbuf, unpack(animParams, 1, animNumParams))
+        wsbuf:write()
         if delay then
             tmr.interval(2, delay)
             tmr.start(2)

@@ -8,7 +8,6 @@ local function run(wsbuf)
     end
     r = r + d
     wsbuf:fill(0,r,0)
-    wsbuf:write()
 
     return 100 -- delay
 end

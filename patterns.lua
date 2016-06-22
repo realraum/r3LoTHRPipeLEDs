@@ -15,6 +15,7 @@ setmetatable(patterns, {
     __index = function(patterns, k)
         return loadPattern(k)
     end,
+    --__mode = "kv",
 })
 
 local random = math.random
@@ -29,16 +30,14 @@ do
         else
             wsbuf:fill(255, 255, 255)
         end
-        wsbuf:write()
         on = not on
-        return 50
+        return 1
     end
 end
 
 patterns.rstrobo = function(wsbuf)
     local r, g, b = random(0, 255),  random(0, 255),  random(0, 255)
     wsbuf:fill(g, r, b)
-    wsbuf:write()
     return 50
 end
 
@@ -48,7 +47,6 @@ patterns.allcolors = function(wsbuf)
         local r, g, b = random(0, 255),  random(0, 255),  random(0, 255)
         set(wsbuf, i, g, r, b)
     end
-    wsbuf:write()
 end
 
 

@@ -1,3 +1,11 @@
+local max = math.max
+local min = math.min
+
+local function clamp(x, mi, ma)
+    return min(ma, max(mi, x))
+end
+
+
 -- same as xpcall(f, errf), but additional args can follow: xxpcall(f, errf, ...)
 local xxpcall
 do
@@ -39,4 +47,4 @@ end
 
 setglobal("xxpcall", xxpcall)
 setglobal("hue2rgb", hue2rgb)
-
+setglobal("clamp", clamp)

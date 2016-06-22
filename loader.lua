@@ -6,6 +6,7 @@ import "safe"
 import "lib"
 import "helpers"
 import "r3mqtt"
+import "lut"
 
 import "ledbar"
 import "patterns"
