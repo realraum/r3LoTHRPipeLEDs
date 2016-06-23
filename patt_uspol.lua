@@ -1,23 +1,26 @@
 local PIXELS = 150
-local uspolice_phase = 0
-local uspolice_centerr = PIXELS * 2 / 3
-local uspolice_centerb = PIXELS * 1 / 3
-local uspolice_maxamp = PIXELS / 3 - (PIXELS/30)
+local phase = 0
+local center_red = PIXELS * 2 / 3
+local center_blue = PIXELS * 1 / 3
+local maxamp = PIXELS / 3 - (PIXELS/30)
 local SIN = lut.sin
-local function uspolice(wsbuf)
-    wsbuf:fill(0,0,0)
+
+local function run(wsbuf)
+    fill(wsbuf,0,0,0)
     local set = wsbuf.set
-    for i = 1, uspolice_maxamp * SIN[uspolice_phase] do
-    	set(wsbuf, uspolice_centerr+i,0,255-i,0)
-    	set(wsbuf, uspolice_centerr-i,0,255-i,0)
+    local amp_red = maxamp * SIN[phase] / 256
+    for i = 1, amp_red do
+    	set(wsbuf, center_red+i,0,amp_red,0)
+    	set(wsbuf, center_red-i,0,amp_red,0)
     end
-    for i = 1, uspolice_maxamp * SIN[uspolice_phase+4] do
-    	set(wsbuf, uspolice_centerb+i,0,0,255-i)
-    	set(wsbuf, uspolice_centerb-i,0,0,255-i)
+    local amp_blue = maxamp * SIN[phase+16]  / 256
+    for i = 1, amp_blue do
+    	set(wsbuf, center_blue+i,0,0,amp_blue)
+    	set(wsbuf, center_blue-i,0,0,amp_blue)
     end
     
-    uspolice_phase = (uspolice_phase + 1) % 256;
+    phase = (phase + 1) % 256
     return 50
 end
 
-return uspolice
+return run
