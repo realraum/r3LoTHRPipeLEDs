@@ -8,6 +8,7 @@ local function run(wsbuf, rainbow_speed)
     wsbuf:set(pixel, hue2rgb((pixel * rainbow_speed + rainbow_index) % 256))
   end
   rainbow_index = (rainbow_index + 1) % 256
+  return 100
 end
 
 return run

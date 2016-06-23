@@ -16,6 +16,7 @@ local function run(wsbuf, spots_count)
   subspot(spots_count-1)
   spot_index = (spot_index + 1) % spots_distance
   wsbuf:write()
+  return 100
 end
 
 return run
