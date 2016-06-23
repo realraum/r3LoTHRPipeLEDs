@@ -13,7 +13,7 @@ local function selectPattern(name, ...)
     end
 end
 
-local function mqttChangePattern(topic, data)
+local function mqttChangePattern(data)
     print(data)
     local jd = cjson.decode(data)
     if jd.pattern then
@@ -21,7 +21,7 @@ local function mqttChangePattern(topic, data)
     end
 end
 
-r3mqtt.setHandler("patt", mqttChangePattern)
+r3mqtt.setHandler("pattern", mqttChangePattern)
 
 setglobal("patt", selectPattern)
 
