@@ -22,6 +22,7 @@ local function mqttChangePattern(data)
 end
 
 r3mqtt.setHandler("pattern", mqttChangePattern)
+r3mqtt.setHandler("restart", node.restart)
 
 setglobal("patt", selectPattern)
 
