@@ -15,31 +15,25 @@ def sendR3Message(client, structname, datadict):
 client = mqtt.Client()
 client.connect("mqtt.realraum.at", 1883, 60)
 
+topic_prefix="action/PipeLEDs/"
+
+
 # listen for sensor data and forward them
-if len(sys.argv) >= 3:
-	sendR3Message(client, "action/PipeLEDs/pattern",{"pattern": sys.argv[1], "arg": int(sys.argv[2])})
-elif len(sys.argv) == 2:
-	if sys.argv[1] == "off":
-		sendR3Message(client, "action/PipeLEDs/pattern",{"pattern": "off", "arg": 0})
-	elif sys.argv[1] == "rainbow":
-		sendR3Message(client, "action/PipeLEDs/pattern",{"pattern": "rainbow", "arg": 2})
-	elif sys.argv[1] == "tightrainbow":
-		sendR3Message(client, "action/PipeLEDs/pattern",{"pattern": "rainbow", "arg": 10})
-	elif sys.argv[1] == "spot":
-		sendR3Message(client, "action/PipeLEDs/pattern",{"pattern": "spots", "arg": 1})
-	elif sys.argv[1] == "spots":
-		sendR3Message(client, "action/PipeLEDs/pattern",{"pattern": "spots", "arg": 2})
-	elif sys.argv[1] == "3spots":
-		sendR3Message(client, "action/PipeLEDs/pattern",{"pattern": "spots", "arg": 3})
-	elif sys.argv[1] == "2spots":
-		sendR3Message(client, "action/PipeLEDs/pattern",{"pattern": "spots", "arg": 2})
-	elif sys.argv[1] == "nspots":
-		sendR3Message(client, "action/PipeLEDs/pattern",{"pattern": "spots", "arg": 10})
-	elif sys.argv[1] == "reset":
-		sendR3Message(client, "action/PipeLEDs/pattern",{"pattern": "spots", "arg": 0})
-	else:
-		print("%s is unknown cmd",sys.argv[1])
+if len(sys.argv) < 2:
+    print("Usage: <pattern|restart> [arg1 [arg2 [..]]]")
+    sys.exit(1)
+
+if sys.argv[1] == "pattern":
+    data = {"pattern":"none", "arg":1}
+    if len(sys.argv) > 2:
+        data["pattern"] = sys.argv[2]
+    if len(sys.argv) > 3:
+        data["arg"] = int(sys.argv[3])
+    sendR3Message(client, "action/PipeLEDs/"+sys.argv[1], data)
+elif sys.argv[1] == "restart" or sys.argv[1] == "reset":
+    sendR3Message(client, "action/PipeLEDs/restart","")
 else:
-	sendR3Message(client, "action/PipeLEDs/pattern",{"pattern": "off", "arg": 0})
+    sys.exit(1)
+
 client.loop(timeout=1.0, max_packets=1)
 client.disconnect()
