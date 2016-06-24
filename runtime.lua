@@ -14,7 +14,6 @@ local function selectPattern(name, ...)
 end
 
 local function mqttChangePattern(data)
-    print(data)
     local jd = cjson.decode(data)
     if jd.pattern then
         selectPattern(jd.pattern, jd.arg)
@@ -22,8 +21,8 @@ local function mqttChangePattern(data)
 end
 
 r3mqtt.setHandler("pattern", mqttChangePattern)
-r3mqtt.setHandler("restart", node.restart)
-
+r3mqtt.setHandler("restart", function() node.restart() end)
+r3mqtt.connect()
 setglobal("patt", selectPattern)
 
 ledbar.init()

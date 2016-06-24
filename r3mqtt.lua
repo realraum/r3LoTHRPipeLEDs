@@ -13,7 +13,7 @@ local function onOffline(client)
     print("mqtt offline")
 end
 local function onMessage(client, topic, data)
-	msgH[topic](data)
+	msgH[string.sub(topic,string.len(mqtt_topic_prefix)+1,99)](data)
 end
 
 local function close()
@@ -39,7 +39,7 @@ end
 local function setHandler(t, f)
     msgH[t] = f
     if mc then
-        mc:subscribe(mqtt_topic_prefix .. t,0,nil)
+        mc:subscribe(mqtt_topic_prefix .. t ,0,nil)
     end
 end
 
