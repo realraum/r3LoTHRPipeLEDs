@@ -1,11 +1,10 @@
 
 local mc
 local msgH = {}
-local mqtt_topic_prefix = "action/PipeLEDs/"
 
 local function onConnect(client)
     for t, _ in pairs(msgH) do
-        client:subscribe(mqtt_topic_prefix .. t,0,nil)
+        client:subscribe(t,0,nil)
     end
 end
 local function onOffline(client)
@@ -13,7 +12,7 @@ local function onOffline(client)
     print("mqtt offline")
 end
 local function onMessage(client, topic, data)
-	msgH[string.sub(topic,string.len(mqtt_topic_prefix)+1,99)](data)
+	msgH[topic](data)
 end
 
 local function close()
@@ -39,7 +38,7 @@ end
 local function setHandler(t, f)
     msgH[t] = f
     if mc then
-        mc:subscribe(mqtt_topic_prefix .. t ,0,nil)
+        mc:subscribe(t ,0,nil)
     end
 end
 
