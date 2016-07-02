@@ -29,6 +29,8 @@ if sys.argv[1] == "pattern":
         data["pattern"] = sys.argv[2]
     if len(sys.argv) > 3:
         data["arg"] = int(sys.argv[3])
+    if len(sys.argv) > 4:
+        data["arg1"] = int(sys.argv[4])
     sendR3Message(client, "action/PipeLEDs/"+sys.argv[1], data)
 elif sys.argv[1] == "restart" or sys.argv[1] == "reset":
     sendR3Message(client, "action/PipeLEDs/restart","")

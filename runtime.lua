@@ -22,7 +22,7 @@ end
 local function mqttChangePattern(data)
     local jd = cjson.decode(data)
     if jd.pattern then
-        selectPattern(jd.pattern, jd.arg)
+        selectPattern(jd.pattern, jd.arg, jd.arg1)
     end
 end
 

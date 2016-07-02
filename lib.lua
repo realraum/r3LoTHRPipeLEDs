@@ -31,16 +31,15 @@ do
     end
 end
 
-local BRIGHT = 10 -- in %
-local function hue2rgb(index)
+local function hue2rgb(index, bright_percent)
   if index < 85 then
-    return index * 3 * BRIGHT / 100, (255 - index * 3) * BRIGHT / 100, 0
+    return index * 3 * bright_percent / 100, (255 - index * 3) * bright_percent / 100, 0
   elseif index < 170 then
     index = index - 85
-    return (255 - index * 3) * BRIGHT / 100, 0, index * 3 * BRIGHT / 100
+    return (255 - index * 3) * bright_percent / 100, 0, index * 3 * bright_percent / 100
   else
     index = index - 170
-    return 0, index * 3 * BRIGHT / 100, (255 - index * 3) * BRIGHT / 100
+    return 0, index * 3 * bright_percent / 100, (255 - index * 3) * bright_percent / 100
   end
 end
 
