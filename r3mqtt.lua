@@ -12,7 +12,10 @@ local function onOffline(client)
     print("mqtt offline")
 end
 local function onMessage(client, topic, data)
-	msgH[topic](data)
+    local f = msgH[topic]
+    if f then
+        f(data)
+    end
 end
 
 local function close()
