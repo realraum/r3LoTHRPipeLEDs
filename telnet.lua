@@ -4,10 +4,25 @@
 
 local client
 local server
+local fifo
+local drained
 
-local function sendout(str)
+local function sendnext(sock)
+    local s = table.remove(fifo, 1)
+    if s then
+        sock:send(s)
+    else
+        drained = true
+    end
+end
+
+local function output(s)
     if client then
-        client:send(str)
+        table.insert(fifo, s)
+        if drained then
+            drained = false
+            sendnext(client)
+        end
     end
 end
 
@@ -18,7 +33,10 @@ end
 local function onDisconnect(sock)
     node.output(nil)
     client = nil
+    fifo = nil
+    drained = nil
 end
+
 
 local function listen(sock)
     if client then
@@ -27,15 +45,18 @@ local function listen(sock)
         return
     end
     client = sock
-    node.output(sendout, 0)
+    fifo = {}
+    drained = true
+    node.output(output, 0)
     sock:on("receive", onReceive)
     sock:on("disconnection", onDisconnect)
+    sock:on("sent", sendnext)
     sock:send("NodeMCU\n")
 end
 
-local function open()
+local function open(port)
     server = net.createServer(net.TCP, 180)
-    server:listen(23, listen)
+    server:listen(port or 23, listen)
 end
 
 local function close()
