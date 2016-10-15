@@ -139,7 +139,7 @@ local function echotest(sock)
         print("Connection closed early. Telnet busy?")
         return
     end
-    if partial ~= "echo-1337" then
+    if partial:sub(1,10)  ~= "echo-1337\n" then
         print("Echo test failed, got: [" .. tostring(partial) .. "]")
         return
     end
