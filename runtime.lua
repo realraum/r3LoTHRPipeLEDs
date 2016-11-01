@@ -26,9 +26,11 @@ local function mqttChangePattern(data)
     end
 end
 
-local function mqttReactToSunlight(data)
+local function mqttReactToPresence(data)
     local jd = cjson.decode(data)
-    if jd.HaveSunlight then
+    if jd.Present then
+        selectPattern("plasma")
+    else
         selectPattern("off")
     end
 end
@@ -44,7 +46,7 @@ local mqtt_topic_prefix = "action/PipeLEDs/"
 
 r3mqtt.setHandler(mqtt_topic_prefix .. "pattern", mqttChangePattern)
 r3mqtt.setHandler(mqtt_topic_prefix .. "restart", function() node.restart() end)
-r3mqtt.setHandler("realraum/metaevt/duskordawn", mqttReactToSunlight)
+r3mqtt.setHandler("realraum/metaevt/presence", mqttReactToPresence)
 r3mqtt.setHandler("realraum/pillar/boredoombuttonpressed", mqttReactToButton)
 r3mqtt.connect()
 setglobal("patt", selectPattern)
