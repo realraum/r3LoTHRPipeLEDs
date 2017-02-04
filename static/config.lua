@@ -1,0 +1,3 @@
+return {
+    wifi = { "NAME", "PASSWORD" },
+}

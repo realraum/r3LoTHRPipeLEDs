@@ -8,7 +8,7 @@ end
 setglobal("setglobal", setglobal)
 setglobal("import", import)
 
-import "startup"
+import "wifi"
 import "telnet"
 telnet.open()
 

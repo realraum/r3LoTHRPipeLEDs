@@ -1,7 +1,11 @@
+wifi.setmode(wifi.STATION)
+wifi.sta.config(unpack(CONFIG.wifi))
+
 --connect to WIFI as configured in init.lua
 wifi.sta.connect()
 
 --wait until connected to WIFI
+-- FIXME: get rid of timer IDs
 tmr.alarm(0, 1000, 1, function()
    if wifi.sta.getip() == nil then
       print("Connecting to AP...")
