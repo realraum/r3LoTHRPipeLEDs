@@ -29,7 +29,7 @@ end
 local function mqttReactToPresence(data)
     local jd = cjson.decode(data)
     if jd.Present then
-        selectPattern("plasma")
+        selectPattern("huefade",5,30)
     else
         selectPattern("off")
     end
