@@ -28,7 +28,7 @@ end
 local function mqttChangePattern(data)
     local jd = cjson.decode(data)
     if jd.hue then
-        if type(jd.hue) == "number" then
+        if type(jd.hue) == "number" and jd.hue >= 0 then
             pattparams.hue = jd.hue % 256
             pattparams.randomhue = 0
         else
@@ -39,7 +39,7 @@ local function mqttChangePattern(data)
         pattparams.brightness = jd.brightness -- 0..100
     end
     if jd.effecthue then
-        if type(jd.effecthue) == "number" then
+        if type(jd.effecthue) == "number" and jd.effecthue >= 0 then
             pattparams.effecthue = jd.effecthue % 256
             pattparams.effectrandomhue = 0
         else
