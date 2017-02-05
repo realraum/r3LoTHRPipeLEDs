@@ -12,7 +12,7 @@ local function run(wsbuf, p, num_leds)
     wsbuf:fill(0,0,0)
     call_counter = num_leds +1
   else
-  	wsbuf:set(math.random(1, PIXELS), hue2rgb(p:getHue(),100))
+  	wsbuf:set(math.random(1, PIXELS), hue2rgb(p:getHue(),p.effectbrightness))
   end
 
   call_counter = call_counter -1

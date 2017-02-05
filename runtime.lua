@@ -16,9 +16,12 @@ local function selectPattern(name, ...)
 end
 
 ---- Default Settings -----
-local pattparams = {brightness=30, speed=150, hue=0, randomhue=0} -- speed: 0..255, hue: 0..255, brightness: 0..100
+local pattparams = {brightness=30, effectbrightness=100, speed=150, hue=0, effecthue=128, randomhue=0, effectrandomhue=0} -- speed: 0..255, hue: 0..255, brightness: 0..100
 function pattparams:getHue()
     if self.randomhue == 0 then return self.hue else return math.random(0,255) end
+end
+function pattparams:getEffectHue()
+    if self.effectrandomhue == 0 then return self.effecthue else return math.random(0,255) end
 end
 ---------------------------
 
@@ -34,6 +37,17 @@ local function mqttChangePattern(data)
     end
     if jd.brightness and type(jd.brightness) == "number" and jd.brightness >= 0 and jd.brightness <= 100 then
         pattparams.brightness = jd.brightness -- 0..100
+    end
+    if jd.effecthue then
+        if type(jd.effecthue) == "number" then
+            pattparams.effecthue = jd.effecthue % 256
+            pattparams.effectrandomhue = 0
+        else
+            pattparams.effectrandomhue = 1
+        end
+    end
+    if jd.effectbrightness and type(jd.effectbrightness) == "number" and jd.effectbrightness >= 0 and jd.effectbrightness <= 100 then
+        pattparams.effectbrightness = jd.effectbrightness -- 0..100
     end
     if jd.speed and type(jd.speed) == "number" and jd.speed >= 0 and jd.speed <= 255 then
         pattparams.speed = jd.speed -- 0..255

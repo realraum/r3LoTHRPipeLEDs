@@ -2,9 +2,8 @@ local PIXELS     = 30*5
 local DEFAULT_BRIGHTNESS = 30 -- in %
 
 local rainbow_index = 1
-local function run(wsbuf, p)
-  local rainbow_speed = p.speed
-  if not rainbow_speed > 0 then
+local function run(wsbuf, p, rainbow_speed)
+  if not (rainbow_speed and rainbow_speed > 0) then
     rainbow_speed = 1
   end
   for pixel = 1, PIXELS do
