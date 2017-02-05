@@ -19,7 +19,7 @@ local function run(wsbuf, p)
         set(wsbuf, i,s,u,0)
     end
 
-    return 20 + ((200 * (255 - p.speed)) / 255); -- delay
+    return 20 + ((200 * (255 - p.speed)) / 255) -- delay
 end
 
 return run

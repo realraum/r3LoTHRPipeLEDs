@@ -16,7 +16,7 @@ local function run(wsbuf, p, num_leds)
   end
 
   call_counter = call_counter -1
-  return 50 + ((1986 * (255 - p.speed)) / 255);
+  return 50 + ((1986 * (255 - p.speed)) / 255)
 end
 
 return run

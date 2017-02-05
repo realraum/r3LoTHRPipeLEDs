@@ -7,4 +7,4 @@ if [ x == "x$IP" ]; then
     exit 1
 fi
 
-lua tools/ledctrl.lua "$IP" *.lua
+lua5.1 tools/ledctrl.lua "$IP" *.lua

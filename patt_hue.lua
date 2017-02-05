@@ -7,7 +7,7 @@ local function run(wsbuf, p, legacy_hue, legacy_bright_percent)
     	p.randomhue = 0
     end
     wsbuf:fill(hue2rgb(p:getHue(), p.brightness))
-    return 50 + ((19860 * (255 - p.speed)) / 255);
+    return 50 + ((19860 * (255 - p.speed)) / 255)
 end
 
 return run

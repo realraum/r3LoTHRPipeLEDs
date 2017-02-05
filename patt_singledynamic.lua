@@ -13,7 +13,7 @@ local function run(wsbuf, p)
   end
 
   call_counter = call_counter +1
-  return  10 + ((5000 * (255 - p.speed)) / 255);
+  return  10 + ((5000 * (255 - p.speed)) / 255)
 end
 
 return run
