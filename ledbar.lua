@@ -7,13 +7,14 @@ local wsbuf = ws2812.newBuffer(PIXELS, BYTES_PER_LED)
 
 local POST = node.task.post
 local PRIO = node.task.LOW_PRIORITY
+local W = ws2812.write
 
 local animFunc, animParams, animNumParams
 
 
 local function off()
     wsbuf:fill(0, 0, 0)
-    wsbuf:write()
+    W(wsbuf)
     tmr.wdclr()
 end
 
@@ -26,7 +27,7 @@ local timerTick
 local function animate()
     if animFunc then
         local delay = animFunc(wsbuf, unpack(animParams, 1, animNumParams))
-        wsbuf:write()
+        W(wsbuf)
         if delay then
             tmr.interval(2, delay)
             tmr.start(2)
