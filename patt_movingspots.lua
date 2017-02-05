@@ -1,6 +1,6 @@
 local spot_index = 0
 
-local function run(wsbuf, spots_count)
+local function run(wsbuf, p, spots_count)
   if not (type(spots_count) == "number" and spots_count > 0) then
     spots_count = 1
   end
@@ -13,7 +13,7 @@ local function run(wsbuf, spots_count)
     if pos < wsbuf:size() then wsbuf:set(pos+1, 64 ,64, 64) end
   end
   spot_index = (spot_index + 1) % spots_distance
-  return 40
+  return 20 + ((200 * (255 - p.speed)) / 255);
 end
 
 return run

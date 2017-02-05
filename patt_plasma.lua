@@ -9,7 +9,7 @@ end
 local t = 0
 
 
-local function run(wsbuf)
+local function run(wsbuf, p)
     t = t + 1
     local set = wsbuf.set
     for i = 1, wsbuf:size() do
@@ -19,7 +19,7 @@ local function run(wsbuf)
         set(wsbuf, i,s,u,0)
     end
 
-    return 30 -- delay
+    return 20 + ((200 * (255 - p.speed)) / 255); -- delay
 end
 
 return run

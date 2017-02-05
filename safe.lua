@@ -17,7 +17,7 @@ setmetatable(_G, {
 local function errorLog(s)
     -- TODO print callstack and shit
     print(s)
-    
+
     setglobal("LAST_ERROR", s)
 end
 setglobal("errorLog", errorLog)

@@ -15,9 +15,9 @@ local function run(wsbuf)
         dy = -dy
     end
     y = y + dy
-    
+
     local set = wsbuf.set
-    
+
     wsbuf:fill(20, 0, 50)
     for i = 1, wsbuf:size() do
         local xx = i - XO

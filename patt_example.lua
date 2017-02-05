@@ -2,7 +2,8 @@
 local r = 100
 local d = 1
 
-local function run(wsbuf)
+local function run(wsbuf, p)
+	-- use: p:getHue(), p.brightness, p.speed
     if r >= 200 or r < 5 then
         d = -d
     end

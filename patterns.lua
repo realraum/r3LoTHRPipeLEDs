@@ -20,7 +20,6 @@ setmetatable(patterns, {
 
 local random = math.random
 
-
 ---- STROBO ----
 do
     local on = false

@@ -19,17 +19,38 @@ local function selectPattern(name, ...)
     end
 end
 
+---- Default Settings -----
+local pattparams = {brightness=30, speed=150, hue=0, randomhue=0} -- speed: 0..255, hue: 0..255, brightness: 0..100
+function pattparams:getHue()
+    if self.randomhue == 0 then return self.hue else return math.random(0,255) end
+end
+---------------------------
+
 local function mqttChangePattern(data)
     local jd = cjson.decode(data)
+    if jd.hue then
+        if type(jd.hue) == "number" then
+            pattparams.hue = jd.hue % 256
+            pattparams.randomhue = 0
+        else
+            pattparams.randomhue = 1
+        end
+    end
+    if jd.brightness and type(jd.brightness) == "number" and jd.brightness >= 0 and jd.brightness <= 100 then
+        pattparams.brightness = jd.brightness -- 0..100
+    end
+    if jd.speed and type(jd.speed) == "number" and jd.speed >= 0 and jd.speed <= 255 then
+        pattparams.speed = jd.speed -- 0..255
+    end
     if jd.pattern then
-        selectPattern(jd.pattern, jd.arg, jd.arg1)
+        selectPattern(jd.pattern, pattparams, jd.arg, jd.arg1)
     end
 end
 
 local function mqttReactToPresence(data)
     local jd = cjson.decode(data)
     if jd.Present then
-        selectPattern("huefade",5,30)
+        selectPattern("huefade",pattparams)
     else
         selectPattern("off")
     end
