@@ -16,7 +16,7 @@ local function run(wsbuf, p, num_leds)
     end
     return 20
   end
-  return 15 + ((120 * (255 - p.speed)) / 255)
+  return 15 + ((1200 * (255 - p.speed)) / 255)
 end
 
 return run
