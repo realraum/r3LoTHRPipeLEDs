@@ -1,7 +1,4 @@
-local curpat = "off"
-local curargs = 0
-local oldpat = "off"
-local oldargs = 0
+local curargs
 
 local function selectPattern(name, ...)
     if not name then
@@ -11,8 +8,7 @@ local function selectPattern(name, ...)
     name =  tostring(name)
     local pa = patterns[name]
     if pa then
-        curpat = name
-        curargs = ...
+        curargs = {name,...}
         print("Switching to pattern "..name)
         ledbar.setFunction(pa, ...)
         ledbar.start()
@@ -57,10 +53,9 @@ local function mqttReactToPresence(data)
 end
 
 local function mqttReactToButton(data)
-	oldpat = curpat
-	oldargs = curargs
+	local oldargs = curargs
     selectPattern("uspol")
-    tmr.alarm(0, 15000, tmr.ALARM_SINGLE, function() selectPattern(oldpat, oldargs) end)
+    tmr.alarm(0, 15000, tmr.ALARM_SINGLE, function() selectPattern(unpack(oldargs)) end)
 end
 
 local mqtt_topic_prefix = "action/PipeLEDs/"
