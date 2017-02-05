@@ -19,8 +19,25 @@ local function rgb(r,g,b)
     ws2812.write(ledbar.wsbuf)
 end
 
+local function slurp(fn)
+    local s
+    if file.open(fn) then
+        s = file.read()
+        file.close()
+    end
+    return s
+end
+
+local function cat(fn)
+    print(slurp(fn) or "! File not found")
+end
+
+
 setglobal("pp", pp) -- pretty print table
 setglobal("rm", file.remove)
 setglobal("cc", file.compile)
 setglobal("ls", ls)
 setglobal("rgb", rgb)
+setglobal("slurp", slurp)
+setglobal("cat", cat)
+
