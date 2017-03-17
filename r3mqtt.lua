@@ -8,7 +8,7 @@ local function onConnect(client)
     end
 end
 local function onOffline(client)
-    mc = nil
+  --mc = nil --no set nil, so autoreconnect works
     print("mqtt offline")
 end
 local function onMessage(client, topic, data)
