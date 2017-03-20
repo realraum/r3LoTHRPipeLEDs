@@ -7,10 +7,6 @@ local function onConnect(client)
         client:subscribe(t,0,nil)
     end
 end
-local function onOffline(client)
-  --mc = nil --no set nil, so autoreconnect works
-    print("mqtt offline")
-end
 local function onMessage(client, topic, data)
     local f = msgH[topic]
     if f then
@@ -27,9 +23,8 @@ end
 
 local function connect()
     close()
-    mc = mqtt.Client("PipeLEDs",30,nil,nil,true)
+    mc = mqtt.Client("PipeLEDs",30,nil,nil,1)
     mc:on("connect", onConnect)
-    mc:on("offline", onOffline)
     mc:on("message", onMessage)
     mc:connect("mqtt.realraum.at",1883,false,true)
 end
