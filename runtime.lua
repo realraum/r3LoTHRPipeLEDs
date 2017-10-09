@@ -1,4 +1,5 @@
 local curargs
+local laserargs = false
 
 local function selectPattern(name, ...)
     if not name then
@@ -26,6 +27,7 @@ end
 ---------------------------
 
 local function mqttChangePattern(data)
+    laserargs = false
     local jd = cjson.decode(data)
     if jd.hue then
         if type(jd.hue) == "number" and jd.hue >= 0 then
@@ -59,6 +61,7 @@ end
 
 local function mqttReactToPresence(data)
     local jd = cjson.decode(data)
+    laserargs = false
     if jd.Present then
         selectPattern("huefade",pattparams)
     else
@@ -72,12 +75,26 @@ local function mqttReactToButton(data)
     tmr.alarm(0, 15000, tmr.ALARM_SINGLE, function() selectPattern(unpack(oldargs)) end)
 end
 
+local function mqttReactToLaserVentilation(data)
+    local jd = cjson.decode(data)
+    if jd.Damper1 == "open" and jd.Fan == "on" then
+        laserargs = curargs
+        selectPattern("movingspots", {speed=252}, 7)
+    elseif laserargs then
+        selectPattern(unpack(laserargs))
+        laserargs = false
+    end
+end
+
+
+
 local mqtt_topic_prefix = "action/PipeLEDs/"
 
 r3mqtt.setHandler(mqtt_topic_prefix .. "pattern", mqttChangePattern)
 r3mqtt.setHandler(mqtt_topic_prefix .. "restart", function() node.restart() end)
 r3mqtt.setHandler("realraum/metaevt/presence", mqttReactToPresence)
 r3mqtt.setHandler("realraum/pillar/boredoombuttonpressed", mqttReactToButton)
+r3mqtt.setHandler("realraum/ventilation/ventstate", mqttReactToLaserVentilation)
 r3mqtt.connect()
 setglobal("patt", selectPattern)
 
