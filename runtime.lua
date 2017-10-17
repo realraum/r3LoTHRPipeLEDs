@@ -63,7 +63,7 @@ local function mqttReactToPresence(data)
     local jd = cjson.decode(data)
     laserargs = false
     if jd.Present then
-        selectPattern("huefade",pattparams)
+        selectPattern("huetwist",pattparams)
     else
         selectPattern("off")
     end
