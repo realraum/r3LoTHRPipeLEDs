@@ -7,7 +7,7 @@ local function run(wsbuf, p, nofade, twistwidtharg)
 		TWISTWIDTH = twistwidtharg
 	end
 	local huequant = 128/TWISTWIDTH
-	if nofade then
+	if nofade == 1 then
 		curhue = p:getHue()
 	end
 	for pixel = 1, (PIXELS-TWISTWIDTH)/2 do
