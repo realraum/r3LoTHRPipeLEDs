@@ -78,7 +78,9 @@ end
 local function mqttReactToLaserVentilation(data)
     local jd = cjson.decode(data)
     if jd.Damper1 == "open" and jd.Fan == "on" then
-        laserargs = curargs
+        if laserargs == false then
+            laserargs = curargs
+        end
         selectPattern("movingspots", {speed=252}, 7)
     elseif laserargs then
         selectPattern(unpack(laserargs))
