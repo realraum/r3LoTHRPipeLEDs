@@ -1,3 +1,4 @@
 return {
     wifi = { "NAME", "PASSWORD" },
+    --ipconf = {ip = "192.168.33.20", netmask = "255.255.255.0", gateway = "192.168.33.1"}
 }
