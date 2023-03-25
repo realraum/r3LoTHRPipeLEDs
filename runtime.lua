@@ -28,7 +28,7 @@ end
 
 local function mqttChangePattern(data)
     laserargs = false
-    local jd = cjson.decode(data)
+    local jd = sjson.decode(data)
     if jd.hue then
         if type(jd.hue) == "number" and jd.hue >= 0 then
             pattparams.hue = jd.hue % 256
@@ -60,7 +60,7 @@ local function mqttChangePattern(data)
 end
 
 local function mqttReactToPresence(data)
-    local jd = cjson.decode(data)
+    local jd = sjson.decode(data)
     laserargs = false
     if jd.Present then
         selectPattern("huetwist",pattparams)
@@ -76,7 +76,7 @@ local function mqttReactToButton(data)
 end
 
 local function mqttReactToLaserVentilation(data)
-    local jd = cjson.decode(data)
+    local jd = sjson.decode(data)
     if jd.Damper1 == "open" and jd.Fan == "on" then
         if laserargs == false then
             laserargs = curargs

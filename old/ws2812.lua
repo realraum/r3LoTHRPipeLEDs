@@ -4,7 +4,7 @@ PIXELS     = 30*5
 TIME_ALARM = 400     -- [ms] define as global var
 
 --global LED buffer for all animations and PIXELS
-wsbuf = ws2812.newBuffer(PIXELS, 3)
+wsbuf = pixbuf.newBuffer(PIXELS, 3)
 
 --basic slow hue function with fixed brightness
 --returns RGB array

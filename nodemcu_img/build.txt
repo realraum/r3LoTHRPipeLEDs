@@ -1,0 +1,10 @@
+branch: release
+commit: f25dc56d3c6213b8ac7ce46d1293466137746eae
+release: 
+release DTS: 202112300746
+SSL: false
+build type: float
+LFS: 0x10000 bytes total capacity
+modules: bit,color_utils,encoder,file,mqtt,net,node,pixbuf,sjson,tmr,wifi,ws2812
+build 2023-03-25 01:43 powered by Lua 5.1.4 on SDK 3.0.1-dev(fce080e)
+
