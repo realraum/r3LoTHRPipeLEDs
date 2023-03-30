@@ -14,6 +14,10 @@ local function onMessage(client, topic, data)
     end
 end
 
+local function onMqttError(client, reason)
+    tmr.create():alarm(10 * 1000, tmr.ALARM_SINGLE, connect)
+end
+
 local function close()
     if mc then
         mc:close()
@@ -26,7 +30,8 @@ local function connect()
     mc = mqtt.Client("PipeLEDs",30,nil,nil,1)
     mc:on("connect", onConnect)
     mc:on("message", onMessage)
-    mc:connect("mqtt.realraum.at",1883,false,true)
+    mc:on("connfail", onMqttError)
+    mc:connect("mqtt.realraum.at",1883,false,true,onMqttError)
 end
 
 local function online()
