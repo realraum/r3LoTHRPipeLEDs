@@ -14,8 +14,11 @@ local function onMessage(client, topic, data)
     end
 end
 
+local rct = tmr.create()
+rct:register(10 * 1000, tmr.ALARM_SEMI, connect)
+
 local function onMqttError(client, reason)
-    tmr.create():alarm(10 * 1000, tmr.ALARM_SINGLE, connect)
+  rct:start()
 end
 
 local function close()

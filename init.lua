@@ -1,3 +1,3 @@
-node.LFS.reload("lfs.img")
+--node.LFS.reload("lfs.img")
 CONFIG = dofile("config.lua")
 dofile("main.lua")
